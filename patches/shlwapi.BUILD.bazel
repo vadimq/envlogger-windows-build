@@ -1,0 +1,11 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "shlwapi",
+    hdrs = ["shlwapi.h"],
+    includes = ["."],
+    linkopts = [
+        "-lshlwapi",
+    ],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,13 @@
+diff --git a/com_google_riegeli/riegeli/bytes/fd_reader.h b/com_google_riegeli/riegeli/bytes/fd_reader.h
+index 70fd051..721f9a3 100644
+--- a/com_google_riegeli/riegeli/bytes/fd_reader.h
++++ b/com_google_riegeli/riegeli/bytes/fd_reader.h
+@@ -154,7 +154,7 @@ class FdReaderBase : public BufferedReader {
+ 
+    private:
+     absl::optional<std::string> assumed_filename_;
+-    int mode_ = O_RDONLY;
++    int mode_ = O_RDONLY | O_BINARY;
+     absl::optional<Position> assumed_pos_;
+     absl::optional<Position> independent_pos_;
+     bool growing_source_ = false;

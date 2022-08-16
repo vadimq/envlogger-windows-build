@@ -1,0 +1,12 @@
+diff --git a/envlogger/converters/BUILD.bazel b/envlogger/converters/BUILD.bazel
+index 6670874..857750b 100644
+--- a/envlogger/converters/BUILD.bazel
++++ b/envlogger/converters/BUILD.bazel
+@@ -81,6 +81,7 @@ cc_test(
+     name = "xtensor_codec_test",
+     srcs = ["xtensor_codec_test.cc"],
+     deps = [
++        "@dbghelp",
+         ":make_visitor",
+         ":xtensor_codec",
+         "//envlogger/platform:parse_text_proto",

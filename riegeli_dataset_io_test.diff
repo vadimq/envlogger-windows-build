@@ -1,0 +1,12 @@
+diff --git a/envlogger/backends/cc/riegeli_dataset_io_test.cc b/envlogger/backends/cc/riegeli_dataset_io_test.cc
+index 28a0af5..62aa282 100644
+--- a/envlogger/backends/cc/riegeli_dataset_io_test.cc
++++ b/envlogger/backends/cc/riegeli_dataset_io_test.cc
+@@ -75,6 +75,7 @@ TEST(RiegeliDatasetTest, MetadataTest) {
+   const auto actual_metadata = reader.Metadata();
+   EXPECT_THAT(actual_metadata, Not(Eq(std::nullopt)));
+   EXPECT_THAT(*actual_metadata, EqualsProto(metadata));
++  reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }

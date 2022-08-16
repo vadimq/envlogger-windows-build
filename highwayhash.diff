@@ -1,0 +1,13 @@
+diff --git a/patches/highwayhash.BUILD.bazel b/patches/highwayhash.BUILD.bazel
+index 98d0b55..83f23c4 100644
+--- a/patches/highwayhash.BUILD.bazel
++++ b/patches/highwayhash.BUILD.bazel
+@@ -18,7 +18,7 @@ licenses(["notice"])
+ 
+ config_setting(
+     name = "haswell",
+-    values = {"cpu": "haswell"},
++    define_values = {"cpu": "haswell"},
+ )
+ 
+ config_setting(

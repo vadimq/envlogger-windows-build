@@ -1,0 +1,56 @@
+diff --git a/envlogger/BUILD.bazel b/envlogger/BUILD.bazel
+index 6881b77..4727880 100644
+--- a/envlogger/BUILD.bazel
++++ b/envlogger/BUILD.bazel
+@@ -15,9 +15,40 @@
+ # Build targets for environment logger.
+ load("@py_deps//:requirements.bzl", "requirement")
+ load("@rules_python//python:defs.bzl", "py_library")
++load("@rules_python//python:packaging.bzl", "py_package", "py_wheel")
+ 
+ package(default_visibility = ["//visibility:public"])
+ 
++py_package(
++    name = "pkg",
++    packages = ["envlogger"],
++    deps = [
++        ":envlogger",
++        "//envlogger/backends:rlds_utils",
++        "//envlogger/backends:tfds_backend_writer",
++        "//envlogger/testing:catch_env",
++    ],
++)
++
++py_wheel(
++    name = "package",
++    abi = "cp310",
++    distribution = "envlogger",
++    platform = "win_amd64",
++    python_tag = "cp310",
++    requires = [
++        "absl-py",
++        "dm_env",
++        "numpy",
++        "protobuf>=3.14, <4.0",
++        "setuptools!=50.0.0",
++    ],
++    version = "1.0.8",
++    deps = [
++        ":pkg",
++    ],
++)
++
+ py_library(
+     name = "envlogger",
+     srcs = ["__init__.py"],
+@@ -80,8 +111,8 @@ py_library(
+     name = "reader",
+     srcs = ["reader.py"],
+     data = [
+-        "//envlogger/backends/python:episode_info.so",
+-        "//envlogger/backends/python:riegeli_dataset_reader.so",
++        "//envlogger/backends/python:episode_info.pyd",
++        "//envlogger/backends/python:riegeli_dataset_reader.pyd",
+     ],
+     deps = [
+         ":step_data",

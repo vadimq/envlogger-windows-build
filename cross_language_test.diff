@@ -1,0 +1,36 @@
+diff --git a/envlogger/backends/cross_language_test/cross_language_test.py b/envlogger/backends/cross_language_test/cross_language_test.py
+index 43dd638..9685a94 100644
+--- a/envlogger/backends/cross_language_test/cross_language_test.py
++++ b/envlogger/backends/cross_language_test/cross_language_test.py
+@@ -28,9 +28,11 @@ from rules_python.python.runfiles import runfiles
+ 
+ def _execute_binary(rel_path: str, args: Sequence[str]) -> bytes:
+   r = runfiles.Create()
+-  path = r.Rlocation(os.path.join('__main__', 'envlogger', rel_path))
++  path = r.Rlocation(os.path.join('__main__', 'envlogger', rel_path).replace("\\", "/"))
+   cmd = [path] + args
+-  return subprocess.check_output(cmd, env=r.EnvVars())
++  env_vars = r.EnvVars()
++  env_vars.update(os.environ)
++  return subprocess.check_output(cmd, env=env_vars)
+ 
+ 
+ class CrossLanguageTest(parameterized.TestCase):
+@@ -43,14 +45,14 @@ class CrossLanguageTest(parameterized.TestCase):
+ 
+     # Find Python writer and run it.
+     py_writer_output = _execute_binary(
+-        'backends/cross_language_test/py_writer',
++        'backends/cross_language_test/py_writer.exe',
+         args=[f'--trajectories_dir={trajectories_dir}'])
+     logging.info('py_writer_output: %r', py_writer_output)
+ 
+     # Find C++ reader and run it.
+     cc_reader_output = _execute_binary(
+-        'backends/cross_language_test/cc_reader',
+-        args=[f'--trajectories_dir={trajectories_dir}'])
++        'backends/cross_language_test/cc_reader.exe',
++        args=[f'{trajectories_dir}'])
+     logging.info('cc_reader_output: %r', cc_reader_output)
+ 
+     # If everything went well, there should be no

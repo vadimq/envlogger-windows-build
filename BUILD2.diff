@@ -1,0 +1,42 @@
+diff --git a/envlogger/backends/BUILD.bazel b/envlogger/backends/BUILD.bazel
+index 740d48e..46c190f 100644
+--- a/envlogger/backends/BUILD.bazel
++++ b/envlogger/backends/BUILD.bazel
+@@ -47,7 +47,7 @@ py_test(
+ py_library(
+     name = "backend_reader",
+     srcs = ["backend_reader.py"],
+-    data = ["//envlogger/backends/python:episode_info.so"],
++    data = ["//envlogger/backends/python:episode_info.pyd"],
+     deps = [
+         "//envlogger:step_data",
+         "//envlogger/converters:codec",
+@@ -66,7 +66,7 @@ py_library(
+ py_library(
+     name = "in_memory_backend",
+     srcs = ["in_memory_backend.py"],
+-    data = ["//envlogger/backends/python:episode_info.so"],
++    data = ["//envlogger/backends/python:episode_info.pyd"],
+     deps = [
+         ":backend_reader",
+         ":backend_writer",
+@@ -92,8 +92,8 @@ py_library(
+     name = "riegeli_backend_reader",
+     srcs = ["riegeli_backend_reader.py"],
+     data = [
+-        "//envlogger/backends/python:episode_info.so",
+-        "//envlogger/backends/python:riegeli_dataset_reader.so",
++        "//envlogger/backends/python:episode_info.pyd",
++        "//envlogger/backends/python:riegeli_dataset_reader.pyd",
+     ],
+     deps = [
+         ":backend_reader",
+@@ -109,7 +109,7 @@ py_library(
+     name = "riegeli_backend_writer",
+     srcs = ["riegeli_backend_writer.py"],
+     data = [
+-        "//envlogger/backends/python:riegeli_dataset_writer.so",
++        "//envlogger/backends/python:riegeli_dataset_writer.pyd",
+     ],
+     deps = [
+         ":backend_writer",

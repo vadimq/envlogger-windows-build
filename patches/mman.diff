@@ -1,0 +1,12 @@
+diff --git a/com_google_riegeli/riegeli/bytes/BUILD b/com_google_riegeli/riegeli/bytes/BUILD
+index c625b35..a290898 100644
+--- a/com_google_riegeli/riegeli/bytes/BUILD
++++ b/com_google_riegeli/riegeli/bytes/BUILD
+@@ -622,6 +622,7 @@ cc_library(
+     # files provide.
+     features = ["-use_header_modules"],
+     deps = [
++        "@mman",
+         ":buffer_options",
+         ":buffered_reader",
+         ":chain_reader",

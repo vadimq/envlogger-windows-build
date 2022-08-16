@@ -1,0 +1,12 @@
+diff --git a/com_google_absl/absl/random/BUILD.bazel b/com_google_absl/absl/random/BUILD.bazel
+index 66ffcbc..09f8755 100644
+--- a/com_google_absl/absl/random/BUILD.bazel
++++ b/com_google_absl/absl/random/BUILD.bazel
+@@ -34,6 +34,7 @@ cc_library(
+     copts = ABSL_DEFAULT_COPTS,
+     linkopts = ABSL_DEFAULT_LINKOPTS,
+     deps = [
++        "@bcrypt",
+         ":distributions",
+         ":seed_sequences",
+         "//absl/random/internal:nonsecure_base",

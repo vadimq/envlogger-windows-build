@@ -1,0 +1,12 @@
+diff --git a/envlogger/backends/cc/riegeli_dataset_writer_test.cc b/envlogger/backends/cc/riegeli_dataset_writer_test.cc
+index 1088cb7..f7c6404 100644
+--- a/envlogger/backends/cc/riegeli_dataset_writer_test.cc
++++ b/envlogger/backends/cc/riegeli_dataset_writer_test.cc
+@@ -200,6 +200,7 @@ TEST(RiegeliDatasetWriterTest, EpisodeMetadata) {
+               ElementsAre(EqualsProto(episode0_metadata),
+                           // Second episode1 should have no metadata here.
+                           EqualsProto(episode2_metadata)));
++  episode_metadata_reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }

@@ -1,0 +1,95 @@
+diff --git a/WORKSPACE.bazel b/WORKSPACE.bazel
+index b8bafe5..5573aca 100644
+--- a/WORKSPACE.bazel
++++ b/WORKSPACE.bazel
+@@ -43,8 +43,11 @@ http_archive(
+ # Install the requirements.
+ http_archive(
+     name = "rules_python",
+-    sha256 = "778197e26c5fbeb07ac2a2c5ae405b30f6cb7ad1f5510ea6fdac03bded96cc6f",
+-    url = "https://github.com/bazelbuild/rules_python/releases/download/0.2.0/rules_python-0.2.0.tar.gz",
++    sha256 = "954aa89b491be4a083304a2cb838019c8b8c3720a7abb9c4cb81ac7a24230cea",
++    urls = [
++        "https://mirror.bazel.build/github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
++        "https://github.com/bazelbuild/rules_python/releases/download/0.4.0/rules_python-0.4.0.tar.gz",
++    ],
+ )
+ 
+ load("@rules_python//python:pip.bzl", "pip_install")
+@@ -75,6 +78,8 @@ rules_proto_toolchains()
+ # abseil-cpp.
+ http_archive(
+     name = "com_google_absl",
++    patch_args = ["-p2"],
++    patches = ["//patches:bcrypt.diff"],
+     sha256 = "35f22ef5cb286f09954b7cc4c85b5a3f6221c9d4df6b8c4a1e9d399555b366ee",  # SHARED_ABSL_SHA
+     strip_prefix = "abseil-cpp-997aaf3a28308eba1b9156aa35ab7bca9688e9f6",
+     urls = [
+@@ -97,6 +102,16 @@ http_archive(
+ # Riegeli.
+ http_archive(
+     name = "com_google_riegeli",
++    patch_args = ["-p2"],
++    patches = [
++        "//patches:dbghelp.diff",
++        "//patches:fd_reader.diff",
++        "//patches:fd_reader_mode.diff",
++        "//patches:fd_writer.diff",
++        "//patches:fd_writer_mode.diff",
++        "//patches:mman.diff",
++        "//patches:py_extension.diff",
++    ],
+     sha256 = "59f94348f425fe3d7edd8f98ee0277ee2f4adecf7cf86f858f75039ce4955244",
+     strip_prefix = "riegeli-e9ba0d79a76b9fa1f0de46c11c464141e345338f",
+     url = "https://github.com/google/riegeli/archive/e9ba0d79a76b9fa1f0de46c11c464141e345338f.tar.gz",  # 2022-06-27
+@@ -174,7 +189,7 @@ http_archive(
+ new_local_repository(
+     name = "gmp",
+     build_file = "//patches:gmp.BUILD.bazel",
+-    path = "/usr/include/",
++    path = "C:/msys64/mingw64/include",
+ )
+ 
+ # Google Logging library.
+@@ -187,6 +202,8 @@ http_archive(
+ 
+ http_archive(
+     name = "com_github_google_glog",
++    patch_args = ["-p2"],
++    patches = ["//patches:signalhandler.diff"],
+     sha256 = "21bc744fb7f2fa701ee8db339ded7dce4f975d0d55837a97be7d46e8382dea5a",
+     strip_prefix = "glog-0.5.0",
+     urls = ["https://github.com/google/glog/archive/v0.5.0.zip"],
+@@ -224,6 +241,32 @@ git_repository(
+ git_repository(
+     name = "com_google_benchmark",
+     commit = "e991355c02b93fe17713efe04cbc2e278e00fdbd",  # v.1.5.5
++    patch_args = ["-p2"],
++    patches = ["//patches:shlwapi.diff"],
+     remote = "https://github.com/google/benchmark.git",
+     shallow_since = "1623228732 +0300",
+ )
++
++new_local_repository(
++    name = "bcrypt",
++    build_file = "//patches:bcrypt.BUILD.bazel",
++    path = "C:/msys64/mingw64/include",
++)
++
++new_local_repository(
++    name = "dbghelp",
++    build_file = "//patches:dbghelp.BUILD.bazel",
++    path = "C:/msys64/mingw64/include",
++)
++
++new_local_repository(
++    name = "mman",
++    build_file = "//patches:mman.BUILD.bazel",
++    path = "C:/msys64/mingw64/include",
++)
++
++new_local_repository(
++    name = "shlwapi",
++    build_file = "//patches:shlwapi.BUILD.bazel",
++    path = "C:/msys64/mingw64/include",
++)

@@ -1,0 +1,10 @@
+diff --git a/.bazelrc b/.bazelrc
+index 3402023..06f0091 100644
+--- a/.bazelrc
++++ b/.bazelrc
+@@ -20,3 +20,5 @@ build -c opt
+ build --cxxopt="-mavx"
+ build --cxxopt="-std=c++17"
+ build --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0"
++build --copt="-Wno-error=vla-parameter
++build --copt="-DHAVE_PTHREAD"

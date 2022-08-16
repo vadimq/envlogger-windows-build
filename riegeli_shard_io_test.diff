@@ -1,0 +1,27 @@
+diff --git a/envlogger/backends/cc/riegeli_shard_io_test.cc b/envlogger/backends/cc/riegeli_shard_io_test.cc
+index 1050cec..78f8686 100644
+--- a/envlogger/backends/cc/riegeli_shard_io_test.cc
++++ b/envlogger/backends/cc/riegeli_shard_io_test.cc
+@@ -33,7 +33,7 @@
+ #include "envlogger/platform/test_macros.h"
+ #include "envlogger/proto/storage.pb.h"
+ 
+-ABSL_FLAG(bool, run_benchmarks, false, "Whether to run benchmarks.");
++//ABSL_FLAG(bool, run_benchmarks, false, "Whether to run benchmarks.");
+ 
+ namespace envlogger {
+ namespace {
+@@ -244,10 +244,11 @@ BENCHMARK(BM_WriteRead)
+ }  // namespace envlogger
+ 
+ int main(int argc, char **argv) {
+-  absl::ParseCommandLine(argc, argv);
++  //absl::ParseCommandLine(argc, argv);
+   ::testing::InitGoogleTest(&argc, argv);
++  /*
+   if (absl::GetFlag(FLAGS_run_benchmarks)) {
+     ::benchmark::RunSpecifiedBenchmarks();
+-  }
++  }*/
+   return RUN_ALL_TESTS();
+ }

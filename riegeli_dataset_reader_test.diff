@@ -1,0 +1,55 @@
+diff --git a/envlogger/backends/cc/riegeli_dataset_reader_test.cc b/envlogger/backends/cc/riegeli_dataset_reader_test.cc
+index 9add0fb..d27adb3 100644
+--- a/envlogger/backends/cc/riegeli_dataset_reader_test.cc
++++ b/envlogger/backends/cc/riegeli_dataset_reader_test.cc
+@@ -160,6 +160,7 @@ TEST(DataDirectoryIndex, SimpleMetadataAndSpec) {
+   const auto actual_metadata = reader.Metadata();
+   EXPECT_THAT(actual_metadata, Not(Eq(std::nullopt)));
+   EXPECT_THAT(*actual_metadata, EqualsProto(metadata));
++  reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }
+@@ -223,6 +224,7 @@ TEST(DataDirectoryIndex, OneShard) {
+   EXPECT_THAT(episodes, ElementsAre(EqualsEpisode(0, 3), EqualsEpisode(3, 2)));
+   EXPECT_THAT(episodes[0].metadata, Not(Eq(std::nullopt)));
+   EXPECT_THAT(*episodes[0].metadata, EqualsProto(episode0_metadata));
++  reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }
+@@ -286,6 +288,7 @@ TEST(DataDirectoryIndex, OneShardNonDmDataPayload) {
+   EXPECT_THAT(episodes, ElementsAre(EqualsEpisode(0, 3), EqualsEpisode(3, 2)));
+   EXPECT_THAT(episodes[0].metadata, Not(Eq(std::nullopt)));
+   EXPECT_THAT(*episodes[0].metadata, EqualsProto(episode0_metadata));
++  reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }
+@@ -348,6 +351,7 @@ TEST(DataDirectoryIndex, TwoShards) {
+   }
+   EXPECT_THAT(episodes, ElementsAre(EqualsEpisode(0, 3), EqualsEpisode(3, 2),
+                                     EqualsEpisode(5, 1), EqualsEpisode(6, 3)));
++  reader.Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }
+@@ -418,6 +422,9 @@ TEST(DataDirectoryIndex, GetShardTest) {
+       episode1_steps,
+       ElementsAre(EqualsProto("datum: { values: { float_values: 4.0}}"),
+                   EqualsProto("datum: { values: { float_values: 5.0}}")));
++  reader.Close();
++  episode0->Close();
++  episode1->Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }
+@@ -483,6 +490,8 @@ TEST(DataDirectoryIndex, CloneTest) {
+                   EqualsProto("datum: { values: { float_values: 3.0}}"),
+                   EqualsProto("datum: { values: { float_values: 4.0}}"),
+                   EqualsProto("datum: { values: { float_values: 5.0}}")));
++  reader.Close();
++  clone->Close();
+ 
+   ENVLOGGER_EXPECT_OK(file::RecursivelyDelete(data_dir));
+ }

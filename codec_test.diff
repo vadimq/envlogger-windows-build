@@ -1,0 +1,20 @@
+diff --git a/envlogger/converters/codec_test.py b/envlogger/converters/codec_test.py
+index ed870ad..cac805a 100644
+--- a/envlogger/converters/codec_test.py
++++ b/envlogger/converters/codec_test.py
+@@ -21,6 +21,15 @@ from envlogger.converters import codec
+ from envlogger.proto import storage_pb2
+ import numpy as np
+ 
++# Patch
++array_old = np.array
++def array_new(object, **kwargs):
++  r = array_old(object, **kwargs)
++  if "dtype" not in kwargs and r.dtype == np.int32:
++    return array_old(object, dtype=np.int64, **kwargs)
++  return r
++np.array = array_new
++
+ 
+ class NumpyConvertersTest(parameterized.TestCase):
+ 

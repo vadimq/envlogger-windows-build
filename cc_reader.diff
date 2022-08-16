@@ -1,0 +1,31 @@
+diff --git a/envlogger/backends/cross_language_test/cc_reader.cc b/envlogger/backends/cross_language_test/cc_reader.cc
+index a86e3bd..ad77415 100644
+--- a/envlogger/backends/cross_language_test/cc_reader.cc
++++ b/envlogger/backends/cross_language_test/cc_reader.cc
+@@ -27,7 +27,7 @@
+ #include "envlogger/proto/storage.pb.h"
+ #include "xtensor/xarray.hpp"
+ 
+-ABSL_FLAG(std::string, trajectories_dir, "", "Path to reader trajectory.");
++//ABSL_FLAG(std::string, trajectories_dir, "", "Path to reader trajectory.");
+ 
+ using ::testing::DoubleEq;
+ using ::testing::Eq;
+@@ -37,13 +37,14 @@ using ::testing::Not;
+ using ::testing::SizeIs;
+ 
+ int main(int argc, char** argv) {
+-  absl::ParseCommandLine(argc, argv);
++  //absl::ParseCommandLine(argc, argv);
+ 
+   VLOG(0) << "Starting C++ Reader...";
+-  VLOG(0) << "--trajectories_dir: " << absl::GetFlag(FLAGS_trajectories_dir);
++  //VLOG(0) << "--trajectories_dir: " << absl::GetFlag(FLAGS_trajectories_dir);
+   envlogger::RiegeliDatasetReader reader;
+   const absl::Status init_status =
+-      reader.Init(absl::GetFlag(FLAGS_trajectories_dir));
++      //reader.Init(absl::GetFlag(FLAGS_trajectories_dir));
++      reader.Init(argv[1]);
+   VLOG(0) << "init_status: " << init_status;
+ 
+   VLOG(0) << "reader.NumSteps(): " << reader.NumSteps();

@@ -1,0 +1,12 @@
+diff --git a/com_google_benchmark/BUILD.bazel b/com_google_benchmark/BUILD.bazel
+index eb35b62..fc96204 100644
+--- a/com_google_benchmark/BUILD.bazel
++++ b/com_google_benchmark/BUILD.bazel
+@@ -12,6 +12,7 @@ config_setting(
+ 
+ cc_library(
+     name = "benchmark",
++    deps = ["@shlwapi"],
+     srcs = glob(
+         [
+             "src/*.cc",

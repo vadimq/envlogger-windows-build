@@ -1,0 +1,85 @@
+diff --git a/envlogger/backends/python/BUILD.bazel b/envlogger/backends/python/BUILD.bazel
+index 2b29d51..291b146 100644
+--- a/envlogger/backends/python/BUILD.bazel
++++ b/envlogger/backends/python/BUILD.bazel
+@@ -19,6 +19,14 @@ package(default_visibility = ["//envlogger:__subpackages__"])
+ 
+ pybind_extension(
+     name = "riegeli_dataset_reader",
++    linkopts = [
++        "-static-libgcc",
++        "-static-libstdc++",
++        "-Wl,-Bstatic,--whole-archive",
++        "-lwinpthread",
++        "-Wl,--no-whole-archive",
++        "-Wl,--allow-multiple-definition"
++    ],
+     srcs = ["riegeli_dataset_reader.cc"],
+     deps = [
+         "//envlogger/backends/cc:riegeli_dataset_reader",
+@@ -29,8 +37,23 @@ pybind_extension(
+     ],
+ )
+ 
++genrule(
++   name = "riegeli_dataset_reader_pyd",
++   srcs = ["riegeli_dataset_reader.so"],
++   outs = ["riegeli_dataset_reader.pyd"],
++   cmd = "mv $(location riegeli_dataset_reader.so) $(location riegeli_dataset_reader.pyd)",
++)
++
+ pybind_extension(
+     name = "riegeli_dataset_writer",
++    linkopts = [
++        "-static-libgcc",
++        "-static-libstdc++",
++        "-Wl,-Bstatic,--whole-archive",
++        "-lwinpthread",
++        "-Wl,--no-whole-archive",
++        "-Wl,--allow-multiple-definition"
++    ],
+     srcs = ["riegeli_dataset_writer.cc"],
+     deps = [
+         "//envlogger/backends/cc:riegeli_dataset_writer",
+@@ -41,8 +64,22 @@ pybind_extension(
+     ],
+ )
+ 
++genrule(
++   name = "riegeli_dataset_writer_pyd",
++   srcs = ["riegeli_dataset_writer.so"],
++   outs = ["riegeli_dataset_writer.pyd"],
++   cmd = "mv $(location riegeli_dataset_writer.so) $(location riegeli_dataset_writer.pyd)",
++)
++
+ pybind_extension(
+     name = "episode_info",
++    linkopts = [
++        "-static-libgcc",
++        "-static-libstdc++",
++        "-Wl,-Bstatic,--whole-archive",
++        "-lwinpthread",
++        "-Wl,--no-whole-archive"
++    ],
+     srcs = ["episode_info.cc"],
+     deps = [
+         "//envlogger/backends/cc:episode_info",
+@@ -51,10 +88,17 @@ pybind_extension(
+     ],
+ )
+ 
++genrule(
++   name = "episode_info_pyd",
++   srcs = ["episode_info.so"],
++   outs = ["episode_info.pyd"],
++   cmd = "mv $(location episode_info.so) $(location episode_info.pyd)",
++)
++
+ py_test(
+     name = "episode_info_test",
+     srcs = ["episode_info_test.py"],
+-    data = [":episode_info.so"],
++    data = [":episode_info.pyd"],
+     deps = [
+         "//envlogger/proto:storage_py_pb2",
+         requirement("absl-py"),

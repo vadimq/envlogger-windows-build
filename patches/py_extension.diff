@@ -1,0 +1,35 @@
+diff --git a/com_google_riegeli/python/riegeli/py_extension.bzl b/com_google_riegeli/python/riegeli/py_extension.bzl
+index fdefce3..31ba938 100644
+--- a/com_google_riegeli/python/riegeli/py_extension.bzl
++++ b/com_google_riegeli/python/riegeli/py_extension.bzl
+@@ -39,14 +39,29 @@ def py_extension(
+ 
+     native.cc_binary(
+         name = cc_binary_name,
++        linkopts = [
++            "-static-libgcc",
++            "-static-libstdc++",
++            "-Wl,-Bstatic,--whole-archive",
++            "-lwinpthread",
++            "-Wl,--no-whole-archive",
++            "-Wl,--allow-multiple-definition"
++        ],
+         linkshared = True,
+         linkstatic = True,
+         visibility = ["//visibility:private"],
+         deps = [cc_library_name],
+     )
+ 
++    native.genrule(
++       name = name + "_pyd",
++       srcs = [cc_binary_name],
++       outs = [name + ".pyd"],
++       cmd = "mv $(location " + cc_binary_name + ") $(location " + name + ".pyd)",
++    )
++
+     native.py_library(
+         name = name,
+-        data = [cc_binary_name],
++        data = [name + ".pyd"],
+         visibility = visibility,
+     )
